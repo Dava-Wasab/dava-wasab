@@ -110,8 +110,24 @@ h1, h2, h3, h4, h5, h6,
     -ms-user-select: none;
 }
 
-/* Allow selection for links and paragraphs */
-a, p, .social-info p, .social-info h3 {
+/* Disable selection for widgets */
+.widget, .widget * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Disable text selection globally */
+* {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Allow selection only for input fields */
+input, textarea {
     user-select: text;
     -webkit-user-select: text;
     -moz-user-select: text;
@@ -296,9 +312,9 @@ a, p, .social-info p, .social-info h3 {
     font-size: clamp(48px, 10vw, 96px);
     font-weight: 900;
     letter-spacing: -2px;
-    margin-bottom: 24px;
     color: var(--accent-green);
     text-transform: uppercase;
+    margin-bottom: 24px;
 }
 
 .hero-subtitle {
