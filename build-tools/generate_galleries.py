@@ -3,6 +3,7 @@
 import os
 from pathlib import Path
 import time
+from urllib.parse import quote
 
 # Gallery folders
 galleries = {
@@ -47,9 +48,11 @@ for gallery_id, folder_name in galleries.items():
         for img in sorted(images):
             # Fix path to be relative from root (remove ../)
             img_path = str(img).replace('\\', '/').replace('../', '')
+            # URL-encode the path to handle spaces and special characters
+            img_path_encoded = quote(img_path)
             gallery_html += f'                    <div class="skin-card">\n'
             gallery_html += f'                        <div class="skin-image-wrapper">\n'
-            gallery_html += f'                            <img src="{img_path}" alt="{folder_name}" class="skin-image" loading="lazy">\n'
+            gallery_html += f'                            <img src="{img_path_encoded}" alt="{folder_name}" class="skin-image" loading="lazy">\n'
             gallery_html += f'                        </div>\n'
             gallery_html += f'                    </div>\n\n'
     else:
