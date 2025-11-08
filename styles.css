@@ -1219,18 +1219,64 @@ section {
 
 /* FOOTER */
 .footer {
-    background: var(--glass-bg);
-    backdrop-filter: blur(30px);
+    background: rgba(1, 0, 13, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 40px 0;
+    margin-top: 100px;
     border-top: 1px solid rgba(224, 255, 0, 0.1);
-    padding: 60px 40px;
+}
+
+.footer-content {
     text-align: center;
 }
 
 .footer-content p {
-    color: var(--text-white);
-    margin-bottom: 8px;
+    color: var(--text-gray);
+    margin: 8px 0;
+}
+
+.footer-subtitle {
     font-size: 14px;
-    opacity: 0.8;
+    opacity: 0.6;
+}
+
+.footer-security {
+    font-size: 12px;
+    opacity: 0.4;
+    margin-top: 16px !important;
+    font-family: 'Courier New', monospace;
+}
+
+.copyable-name {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    font-weight: 700;
+}
+
+.copyable-name:hover {
+    color: var(--accent-green);
+}
+
+@keyframes copyNotification {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes copyNotificationOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
 }
 
 .footer-subtitle {

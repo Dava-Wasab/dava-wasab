@@ -533,7 +533,7 @@ function updateClock() {
 }
 
 // ==========================================
-// VISITOR COUNTER
+// VISITOR COUNTER WITH SMOOTH ANIMATION
 // ==========================================
 function initVisitorCounter() {
     const today = new Date().toDateString();
@@ -544,7 +544,6 @@ function initVisitorCounter() {
     if (visitorData) {
         try {
             visitorData = JSON.parse(visitorData);
-            // Ensure arrays exist
             if (!Array.isArray(visitorData.todayVisits)) {
                 visitorData.todayVisits = [];
             }
@@ -575,22 +574,22 @@ function initVisitorCounter() {
         };
     }
     
-    // Generate unique visitor ID (persists across sessions)
+    // Generate unique visitor ID
     let visitorId = localStorage.getItem('visitorId');
     if (!visitorId) {
         visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('visitorId', visitorId);
     }
     
-    // Check if this visitor already visited today
+    // Add to today's visits
     if (!visitorData.todayVisits.includes(visitorId)) {
         visitorData.todayVisits.push(visitorId);
     }
     
-    // Clean up old active sessions (older than 5 minutes)
+    // Clean up old sessions (5 minutes)
     visitorData.activeSessions = visitorData.activeSessions.filter(s => now - s.time < 300000);
     
-    // Add or update current session
+    // Update current session
     const existingSession = visitorData.activeSessions.findIndex(s => s.id === visitorId);
     if (existingSession !== -1) {
         visitorData.activeSessions[existingSession].time = now;
@@ -601,35 +600,32 @@ function initVisitorCounter() {
     // Save data
     localStorage.setItem('visitorData', JSON.stringify(visitorData));
     
-    // Update display
+    // Get elements
     const todayCount = document.getElementById('todayCount');
     const onlineCount = document.getElementById('onlineCount');
     
-    // Calculate counts
+    // Calculate counts with proper logic
     const onlineTotal = Math.max(1, visitorData.activeSessions.length);
-    // Today always > Online (at least +1 more than online)
     const todayTotal = Math.max(onlineTotal + 1, visitorData.todayVisits.length);
     
-    if (todayCount) {
-        animateCounter(todayCount, 0, todayTotal, 1000);
-    }
-    
-    if (onlineCount) {
-        animateCounter(onlineCount, 0, onlineTotal, 800);
+    // Animate counters with smooth transition
+    if (todayCount && onlineCount) {
+        animateCounter(onlineCount, 0, onlineTotal, 1200);
+        setTimeout(() => {
+            animateCounter(todayCount, 0, todayTotal, 1200);
+        }, 300);
     }
     
     // Visitor stats (silent mode for production)
     
-    // Update active sessions every 30 seconds
+    // Update sessions every 30 seconds
     setInterval(() => {
         const currentTime = Date.now();
         let data = JSON.parse(localStorage.getItem('visitorData'));
         
         if (data) {
-            // Clean up old sessions
             data.activeSessions = data.activeSessions.filter(s => currentTime - s.time < 300000);
             
-            // Update current session
             const session = data.activeSessions.find(s => s.id === visitorId);
             if (session) {
                 session.time = currentTime;
@@ -637,25 +633,110 @@ function initVisitorCounter() {
             
             localStorage.setItem('visitorData', JSON.stringify(data));
             
-            // Update counts
             const newOnlineTotal = Math.max(1, data.activeSessions.length);
             const newTodayTotal = Math.max(newOnlineTotal + 1, data.todayVisits.length);
             
-            if (onlineCount) {
-                const currentOnline = parseInt(onlineCount.textContent);
+            if (onlineCount && todayCount) {
+                const currentOnline = parseInt(onlineCount.textContent) || 0;
+                const currentToday = parseInt(todayCount.textContent) || 0;
+                
                 if (currentOnline !== newOnlineTotal) {
-                    animateCounter(onlineCount, currentOnline, newOnlineTotal, 500);
+                    animateCounter(onlineCount, currentOnline, newOnlineTotal, 800);
                 }
-            }
-            
-            if (todayCount) {
-                const currentToday = parseInt(todayCount.textContent);
+                
                 if (currentToday !== newTodayTotal) {
-                    animateCounter(todayCount, currentToday, newTodayTotal, 500);
+                    setTimeout(() => {
+                        animateCounter(todayCount, currentToday, newTodayTotal, 800);
+                    }, 200);
                 }
             }
         }
-    }, 30000); // Every 30 seconds
+    }, 30000);
+}
+
+// ==========================================
+// COPY NAME TO CLIPBOARD
+// ==========================================
+function initCopyableName() {
+    // Find all elements with copyable-name class
+    const copyableElements = document.querySelectorAll('.copyable-name');
+    
+    copyableElements.forEach(element => {
+        element.style.cursor = 'pointer';
+        element.style.transition = 'color 0.2s ease';
+        
+        element.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Copy to clipboard
+            const textToCopy = 'Dava_Wasab';
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showCopyNotification(element);
+                }).catch(() => {
+                    fallbackCopy(textToCopy, element);
+                });
+            } else {
+                fallbackCopy(textToCopy, element);
+            }
+        });
+        
+        element.addEventListener('mouseenter', () => {
+            element.style.color = 'var(--accent-green)';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.color = '';
+        });
+    });
+}
+
+function fallbackCopy(text, element) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyNotification(element);
+    } catch (err) {
+        console.error('Copy failed');
+    }
+    
+    document.body.removeChild(textarea);
+}
+
+function showCopyNotification(element) {
+    const notification = document.createElement('div');
+    notification.textContent = '✓ Copied!';
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--accent-green);
+        color: var(--bg-dark);
+        padding: 16px 32px;
+        border-radius: 12px;
+        font-family: 'Unbounded', sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        z-index: 999999;
+        animation: copyNotification 0.5s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'copyNotificationOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 1500);
 }
 
 function animateCounter(element, start, end, duration) {
@@ -725,6 +806,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize visitor counter
     initVisitorCounter();
+    
+    // Initialize copyable name
+    initCopyableName();
     
     // Initialize ripple effect on widgets
     document.querySelectorAll('.widget').forEach(widget => {
