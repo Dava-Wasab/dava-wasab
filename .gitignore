@@ -19,3 +19,10 @@ desktop.ini
 # Temp files
 *.tmp
 *.bak
+
+# Build tools and production folders
+build-tools/
+production/
+production_advanced/
+OBFUSCATION_GUIDE.md
+HOW_TO_ADD_IMAGES.md
