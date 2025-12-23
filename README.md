@@ -26,7 +26,7 @@ Professional Minecraft designer specializing in custom skins, 3D models, and low
 - **Telegram:** [@DavasMueslis](https://t.me/DavasMueslis)
 - **Discord:** Dava_Wasab
 - **Bluesky:** [@dava-wasab](https://bsky.app/profile/dava-wasab.bsky.social)
-- **X (Twitter):** [@Dava_Wasab_Off](https://x.com/Dava_Wasab_Off)
+- **X (Twitter):** [@Dava_Wasab_Off](https://x.com/Dava_Wasab)
 
 ## Portfolio
 
