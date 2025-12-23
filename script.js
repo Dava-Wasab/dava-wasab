@@ -10,7 +10,7 @@ const redirectLinks = {
     'discord-server': 'https://discord.com/invite/e4qS8pr2vz',
     'discord-dm': 'https://discord.com/users/1047829202705059840',
     'bluesky': 'https://bsky.app/profile/dava-wasab.bsky.social',
-    'twitter': 'https://x.com/Dava_Wasab_Off'
+    'twitter': 'https://x.com/Dava_Wasab'
 };
 
 function redirect(key) {
@@ -36,18 +36,18 @@ function redirect(key) {
 function copyToClipboard(text, event) {
     event.preventDefault();
     event.stopPropagation();
-    
+
     navigator.clipboard.writeText(text).then(() => {
         // Show notification
         const notification = document.createElement('div');
         notification.className = 'copy-notification';
         notification.textContent = 'Copied: ' + text;
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.classList.add('show');
         }, 10);
-        
+
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
@@ -87,7 +87,7 @@ window.hideCurrencies = hideCurrencies;
 window.redirect = redirect;
 
 // Function to list all redirects
-window.listRedirects = function() {
+window.listRedirects = function () {
     try {
         console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #E0FF00;');
         console.log('%c✨ Minecraft Designer • Own Site Portfolio', 'color: #E0FF00; font-size: 14px; font-weight: bold;');
@@ -104,7 +104,7 @@ window.listRedirects = function() {
 };
 
 // Function to get specific redirect URL
-window.getRedirect = function(key) {
+window.getRedirect = function (key) {
     return redirectLinks[key] || null;
 };
 
@@ -118,25 +118,25 @@ function createParticles() {
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        
+
         const size = Math.random() * 3 + 2;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        
+
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
-        
+
         const duration = Math.random() * 25 + 20;
         particle.style.animationDuration = `${duration}s`;
-        
+
         const delay = Math.random() * 5;
         particle.style.animationDelay = `${delay}s`;
-        
+
         const tx = (Math.random() - 0.5) * 250;
         const ty = (Math.random() - 0.5) * 250;
         particle.style.setProperty('--tx', `${tx}px`);
         particle.style.setProperty('--ty', `${ty}px`);
-        
+
         particlesContainer.appendChild(particle);
     }
 }
@@ -148,14 +148,14 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href');
-        
+
         if (targetId === '#') return;
-        
+
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
             const navbarHeight = document.querySelector('.navbar').offsetHeight;
             const targetPosition = targetElement.offsetTop - navbarHeight - 20;
-            
+
             // Smooth scroll to target
             window.scrollTo({
                 top: targetPosition,
@@ -173,11 +173,11 @@ const scrollHint = document.getElementById('scrollHint');
 
 window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
-    
+
     if (currentScroll > 50) {
         navbar.style.background = 'rgba(1, 0, 13, 0.95)';
         navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-        
+
         // Hide scroll hint
         if (scrollHint) {
             scrollHint.classList.add('hidden');
@@ -185,7 +185,7 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.style.background = 'rgba(1, 0, 13, 0.85)';
         navbar.style.boxShadow = 'none';
-        
+
         // Show scroll hint
         if (scrollHint) {
             scrollHint.classList.remove('hidden');
@@ -201,7 +201,7 @@ const navLinks = document.querySelectorAll('.nav-link');
 
 window.addEventListener('scroll', () => {
     let current = '';
-    
+
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
@@ -209,7 +209,7 @@ window.addEventListener('scroll', () => {
             current = section.getAttribute('id');
         }
     });
-    
+
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {
@@ -224,10 +224,10 @@ window.addEventListener('scroll', () => {
 const skinCards = document.querySelectorAll('.skin-card');
 
 skinCards.forEach((card, index) => {
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function () {
         const img = this.querySelector('.skin-image');
         const imgSrc = img.src;
-        
+
         const lightbox = document.createElement('div');
         lightbox.style.cssText = `
             position: fixed;
@@ -246,7 +246,7 @@ skinCards.forEach((card, index) => {
             transition: opacity 0.3s ease;
             padding: 40px;
         `;
-        
+
         const lightboxImg = document.createElement('img');
         lightboxImg.src = imgSrc;
         lightboxImg.style.cssText = `
@@ -257,7 +257,7 @@ skinCards.forEach((card, index) => {
             transform: scale(0.95);
             transition: transform 0.3s ease;
         `;
-        
+
         const closeBtn = document.createElement('div');
         closeBtn.innerHTML = '×';
         closeBtn.style.cssText = `
@@ -279,27 +279,27 @@ skinCards.forEach((card, index) => {
             transition: all 0.3s ease;
             font-weight: 300;
         `;
-        
+
         closeBtn.addEventListener('mouseenter', () => {
             closeBtn.style.background = 'rgba(224, 255, 0, 0.2)';
             closeBtn.style.transform = 'scale(1.1)';
         });
-        
+
         closeBtn.addEventListener('mouseleave', () => {
             closeBtn.style.background = 'rgba(224, 255, 0, 0.1)';
             closeBtn.style.transform = 'scale(1)';
         });
-        
+
         lightbox.appendChild(lightboxImg);
         lightbox.appendChild(closeBtn);
         document.body.appendChild(lightbox);
         document.body.style.overflow = 'hidden';
-        
+
         setTimeout(() => {
             lightbox.style.opacity = '1';
             lightboxImg.style.transform = 'scale(1)';
         }, 10);
-        
+
         const closeLightbox = () => {
             lightbox.style.opacity = '0';
             lightboxImg.style.transform = 'scale(0.95)';
@@ -308,13 +308,13 @@ skinCards.forEach((card, index) => {
                 document.body.removeChild(lightbox);
             }, 300);
         };
-        
+
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox || e.target === closeBtn) {
                 closeLightbox();
             }
         });
-        
+
         const closeOnEsc = (e) => {
             if (e.key === 'Escape') {
                 closeLightbox();
@@ -352,11 +352,11 @@ document.querySelectorAll('.widget, .skin-card, .social-card').forEach(element =
 const buttons = document.querySelectorAll('.btn');
 
 buttons.forEach(button => {
-    button.addEventListener('click', function(e) {
+    button.addEventListener('click', function (e) {
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const ripple = document.createElement('span');
         ripple.style.cssText = `
             position: absolute;
@@ -370,11 +370,11 @@ buttons.forEach(button => {
             left: ${x}px;
             top: ${y}px;
         `;
-        
+
         this.style.position = 'relative';
         this.style.overflow = 'hidden';
         this.appendChild(ripple);
-        
+
         setTimeout(() => {
             ripple.remove();
         }, 600);
@@ -439,16 +439,16 @@ const galleryContainers = document.querySelectorAll('.gallery-container');
 galleryTabs.forEach(tab => {
     tab.addEventListener('click', () => {
         const targetGallery = tab.getAttribute('data-gallery');
-        
+
         // Remove active class from all tabs
         galleryTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        
+
         // Hide all galleries
         galleryContainers.forEach(container => {
             container.classList.remove('active');
         });
-        
+
         // Show target gallery
         const targetContainer = document.getElementById(`gallery-${targetGallery}`);
         if (targetContainer) {
@@ -463,15 +463,15 @@ galleryTabs.forEach(tab => {
 function calculateAge() {
     const birthDate = new Date(2010, 7, 23); // August 23, 2010 (month is 0-indexed)
     const today = new Date();
-    
+
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     // If birthday hasn't occurred this year yet, subtract 1
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    
+
     return age;
 }
 
@@ -516,15 +516,15 @@ images.forEach(img => {
 function updateClock() {
     const clockElement = document.getElementById('utcClock');
     if (!clockElement) return;
-    
+
     const now = new Date();
     // Get UTC time and add 2 hours
     const utcPlus2 = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (2 * 3600000));
-    
+
     const hours = String(utcPlus2.getHours()).padStart(2, '0');
     const minutes = String(utcPlus2.getMinutes()).padStart(2, '0');
     const seconds = String(utcPlus2.getSeconds()).padStart(2, '0');
-    
+
     const timeString = `${hours}:${minutes}:${seconds}`;
     const timeElement = clockElement.querySelector('.clock-time');
     if (timeElement) {
@@ -538,7 +538,7 @@ function updateClock() {
 function initVisitorCounter() {
     const today = new Date().toDateString();
     const now = Date.now();
-    
+
     // Get stored data
     let visitorData = localStorage.getItem('visitorData');
     if (visitorData) {
@@ -564,7 +564,7 @@ function initVisitorCounter() {
             activeSessions: []
         };
     }
-    
+
     // Reset counter if new day
     if (visitorData.date !== today) {
         visitorData = {
@@ -573,22 +573,22 @@ function initVisitorCounter() {
             activeSessions: []
         };
     }
-    
+
     // Generate unique visitor ID
     let visitorId = localStorage.getItem('visitorId');
     if (!visitorId) {
         visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         localStorage.setItem('visitorId', visitorId);
     }
-    
+
     // Add to today's visits
     if (!visitorData.todayVisits.includes(visitorId)) {
         visitorData.todayVisits.push(visitorId);
     }
-    
+
     // Clean up old sessions (5 minutes)
     visitorData.activeSessions = visitorData.activeSessions.filter(s => now - s.time < 300000);
-    
+
     // Update current session
     const existingSession = visitorData.activeSessions.findIndex(s => s.id === visitorId);
     if (existingSession !== -1) {
@@ -596,18 +596,18 @@ function initVisitorCounter() {
     } else {
         visitorData.activeSessions.push({ id: visitorId, time: now });
     }
-    
+
     // Save data
     localStorage.setItem('visitorData', JSON.stringify(visitorData));
-    
+
     // Get elements
     const todayCount = document.getElementById('todayCount');
     const onlineCount = document.getElementById('onlineCount');
-    
+
     // Calculate counts with proper logic
     const onlineTotal = Math.max(1, visitorData.activeSessions.length);
     const todayTotal = Math.max(onlineTotal + 1, visitorData.todayVisits.length);
-    
+
     // Animate counters with smooth transition
     if (todayCount && onlineCount) {
         animateCounter(onlineCount, 0, onlineTotal, 1200);
@@ -615,35 +615,35 @@ function initVisitorCounter() {
             animateCounter(todayCount, 0, todayTotal, 1200);
         }, 300);
     }
-    
+
     // Visitor stats (silent mode for production)
-    
+
     // Update sessions every 30 seconds
     setInterval(() => {
         const currentTime = Date.now();
         let data = JSON.parse(localStorage.getItem('visitorData'));
-        
+
         if (data) {
             data.activeSessions = data.activeSessions.filter(s => currentTime - s.time < 300000);
-            
+
             const session = data.activeSessions.find(s => s.id === visitorId);
             if (session) {
                 session.time = currentTime;
             }
-            
+
             localStorage.setItem('visitorData', JSON.stringify(data));
-            
+
             const newOnlineTotal = Math.max(1, data.activeSessions.length);
             const newTodayTotal = Math.max(newOnlineTotal + 1, data.todayVisits.length);
-            
+
             if (onlineCount && todayCount) {
                 const currentOnline = parseInt(onlineCount.textContent) || 0;
                 const currentToday = parseInt(todayCount.textContent) || 0;
-                
+
                 if (currentOnline !== newOnlineTotal) {
                     animateCounter(onlineCount, currentOnline, newOnlineTotal, 800);
                 }
-                
+
                 if (currentToday !== newTodayTotal) {
                     setTimeout(() => {
                         animateCounter(todayCount, currentToday, newTodayTotal, 800);
@@ -660,17 +660,17 @@ function initVisitorCounter() {
 function initCopyableName() {
     // Find all elements with copyable-name class
     const copyableElements = document.querySelectorAll('.copyable-name');
-    
+
     copyableElements.forEach(element => {
         element.style.cursor = 'pointer';
         element.style.transition = 'color 0.2s ease';
-        
+
         element.addEventListener('click', (e) => {
             e.preventDefault();
-            
+
             // Copy to clipboard
             const textToCopy = 'Dava_Wasab';
-            
+
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(textToCopy).then(() => {
                     showCopyNotification(element);
@@ -681,11 +681,11 @@ function initCopyableName() {
                 fallbackCopy(textToCopy, element);
             }
         });
-        
+
         element.addEventListener('mouseenter', () => {
             element.style.color = 'var(--accent-green)';
         });
-        
+
         element.addEventListener('mouseleave', () => {
             element.style.color = '';
         });
@@ -699,14 +699,14 @@ function fallbackCopy(text, element) {
     textarea.style.opacity = '0';
     document.body.appendChild(textarea);
     textarea.select();
-    
+
     try {
         document.execCommand('copy');
         showCopyNotification(element);
     } catch (err) {
         console.error('Copy failed');
     }
-    
+
     document.body.removeChild(textarea);
 }
 
@@ -728,9 +728,9 @@ function showCopyNotification(element) {
         z-index: 999999;
         animation: copyNotification 0.5s ease;
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.style.animation = 'copyNotificationOut 0.3s ease';
         setTimeout(() => {
@@ -743,7 +743,7 @@ function animateCounter(element, start, end, duration) {
     const range = end - start;
     const increment = range / (duration / 16);
     let current = start;
-    
+
     const timer = setInterval(() => {
         current += increment;
         if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
@@ -759,21 +759,21 @@ function animateCounter(element, start, end, duration) {
 // RIPPLE EFFECT ON WIDGETS
 // ==========================================
 document.querySelectorAll('.widget').forEach(widget => {
-    widget.addEventListener('click', function(e) {
+    widget.addEventListener('click', function (e) {
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
-        
+
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
         ripple.style.width = '20px';
         ripple.style.height = '20px';
-        
+
         this.appendChild(ripple);
-        
+
         setTimeout(() => {
             ripple.remove();
         }, 600);
@@ -786,47 +786,47 @@ document.querySelectorAll('.widget').forEach(widget => {
 document.addEventListener('DOMContentLoaded', () => {
     // Create particles background
     createParticles();
-    
+
     // Update age on load
     updateAge();
-    
+
     // Check age daily (in case page stays open)
     setInterval(updateAge, 86400000); // 24 hours
-    
+
     // Apply image protection to all images
     const allImages = document.querySelectorAll('img');
     allImages.forEach(img => {
         img.style.userSelect = 'none';
         img.setAttribute('draggable', 'false');
     });
-    
+
     // Start clock
     updateClock();
     setInterval(updateClock, 1000); // Update every second
-    
+
     // Initialize visitor counter
     initVisitorCounter();
-    
+
     // Initialize copyable name
     initCopyableName();
-    
+
     // Initialize ripple effect on widgets
     document.querySelectorAll('.widget').forEach(widget => {
-        widget.addEventListener('click', function(e) {
+        widget.addEventListener('click', function (e) {
             const ripple = document.createElement('span');
             ripple.className = 'ripple';
-            
+
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
             ripple.style.width = '20px';
             ripple.style.height = '20px';
-            
+
             this.appendChild(ripple);
-            
+
             setTimeout(() => {
                 ripple.remove();
             }, 600);
